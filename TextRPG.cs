@@ -2,60 +2,147 @@
 
 namespace TextRPG {
     class TextRPG {
-        static void Main (string[] args) {
-            string input = null;
-            int count = 1;
+        public static void Main (string[] args) {
+            int count = 0; // 몇번째 적인지
 
 
-            Info player = new Info (100, 5, 5, 3.0f, 2.0f);
-            Info enemy = new Info (10, 2, 3, 5.0f, 10.0f);
 
-            Interface.StartInterface ();
-            Console.ReadKey ();
-            Console.Clear ();
+            Info player = new Info (100, 10, 5, 5, 7);
+            Info enemy = new Info();
             
 
-            while(true) {
-                Interface.MainInterface (count);
-                Interface.PlayerInterface (player);
-                //Interface.EnemyInterface (enemy);
-                ReadCommands (ref input);
+            // 시작 화면 인터페이스
+            //Interface.StartInterface ();
+            //Console.ReadKey ();
+            //Console.Clear ();
+            
 
+            while(count < 10) {
+
+                Interface.MainInterface (count);
+                if (enemy.health <= 0) {
+                    Console.WriteLine (++count + "번째 적을 마주쳤습니다.\n");
+                    enemy = new Info ();
+                    RandEnemy (enemy);
+                }
+                if (count > 0)
+                    Console.WriteLine (count + " / 10");
+
+
+
+                Interface.PlayerInterface (player);
+                Interface.EnemyInterface (enemy);
+                Commands.ReadCommands (player, enemy, ref count);
+
+                IsAchivement ();
+
+                if (enemy.health <= 0) {
+                    Console.WriteLine ("적을 처치했습니다!!\n");
+                    if (count >= 9) {
+                        Console.ReadKey ();
+                        count++;
+                        GameEnd (player, enemy, ref count);
+                        enemy = new Info ();
+                        RandEnemy (enemy);
+                    }
+                }
                 Console.ReadKey (); // getchar() 대용으로 사용중
+                Console.Clear ();
+            }
+        }
+
+
+        public static  void RandEnemy (Info enemy) {
+            Random rand = new Random ();
+            enemy.attack = rand.Next (3, 8);
+            enemy.health = rand.Next (7, 16);
+            enemy.defense = rand.Next (1, 3);
+            enemy.critical = rand.Next (3, 8);
+            enemy.evade = rand.Next (3, 20);
+            
+        }
+
+        public static void GameEnd (Info player, Info enemy, ref int count) {
+            Console.Clear ();
+            Interface.GameEndInterface (0);
+            Console.WriteLine ("축하합니다!");
+            Console.WriteLine ("게임 클리어!\n");
+
+            Console.WriteLine ("재실행하시겠습니까?\n");
+            Commands.GameEndCommands (player, enemy, ref count);
+
+        }
+
+        static bool DMG1, DMG2, DMG3;
+        static bool CRI1, CRI2, CRI3;
+        static bool EVA1, EVA2, EVA3;
+        public static void IsAchivement () {
+            if(DMG1 == false && Commands.totalDMG < 100) {
+                if(Commands.totalDMG >= 50) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 피해량 50달성!!\n");
+                    DMG1 = true;
+                }
+            } else if(DMG2 == false && Commands.totalDMG < 200) {
+                if (Commands.totalDMG >= 100) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 피해량 100달성!!\n");
+                    DMG1 = true;
+                    DMG2 = true;
+                }
+            } else if (DMG3 == false) {
+                if (Commands.totalDMG >= 200) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 피해량 200달성!!\n");
+                    DMG1 = true;
+                    DMG2 = true;
+                    DMG3 = true;
+                }
+            }
+
+            if (CRI1 == false) {
+                if (Commands.totalCritical >= 3) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 크리티컬 3달성!!\n");
+                    CRI1 = true;
+                }
+            } else if (CRI2 == false) {
+                if (Commands.totalCritical >= 5) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 크리티컬 5달성!!\n");
+                    CRI2 = true;
+                }
+            } else if (CRI3 == false) {
+                if (Commands.totalCritical >= 10) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 크리티컬 10달성!!\n");
+                    CRI3 = true;
+                }
+            }
+
+            if (EVA1 == false) {
+                if (Commands.totalEvade >= 3) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 회피 3달성!!\n");
+                    EVA1 = true;
+                }
+            } else if (EVA2 == false) {
+                if (Commands.totalEvade >= 5) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 회피 5달성!!\n");
+                    EVA2 = true;
+                }
+            } else if (EVA3 == false) {
+                if (Commands.totalEvade >= 10) {
+                    Console.WriteLine ("도전과제");
+                    Console.WriteLine ("누적 회피 10달성!!\n");
+                    EVA3 = true;
+                }
             }
 
         }
 
-        // 명령어 입력 받는 함수
-        public static void ReadCommands(ref string command) {
-
-            Console.Write ("Command : ");
-            command = Console.ReadLine ().ToLower(); // 소문자로 입력받음
-            switch (command) {
-                case "-start":
-                    Commands.start ();
-                    break;
-
-                case "-restart":
-                    Commands.restart ();
-                    break;
-
-                case "-quit":
-                    Commands.quit ();
-                    break;
-
-                case "-attack":
-                    Commands.attack ();
-                    break;
-
-                default:
-                    Console.WriteLine ("명령어에 해당하지 않는 입력");
-                    ReadCommands (ref command);
-                    break;
-                }
-
-            
-        }
+        
     }
 
     // 정보 클래스 (아군, 적)
@@ -63,10 +150,14 @@ namespace TextRPG {
         public int health { get; set; }
         public int attack { get; set; }
         public int defense { get; set; }
-        public float critical { get; set; }
-        public float evade { get; set; }
+        public int critical { get; set; }
+        public int evade { get; set; }
 
-        public Info(int health, int attack, int defense, float critical, float evade) {
+        public Info() {
+
+        }
+
+        public Info(int health, int attack, int defense, int critical, int evade) {
             this.health = health;
             this.attack = attack;
             this.defense = defense;
@@ -74,5 +165,5 @@ namespace TextRPG {
             this.evade = evade;
         }
     }
-    
+
 }
