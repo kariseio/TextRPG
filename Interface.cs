@@ -22,7 +22,7 @@ namespace TextRPG {
         // 기본 인터페이스
         public static void MainInterface (int count) {
             Console.WriteLine ("★명령어★");
-            Console.WriteLine ("-start : 게임을 시작합니다.");
+            //Console.WriteLine ("-start : 게임을 시작합니다.");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
             Console.WriteLine ("-quit : 게임을 종료합니다.");
             Console.WriteLine ("-attack : 공격합니다.");
@@ -48,6 +48,14 @@ namespace TextRPG {
             Console.WriteLine ("방어력 : " + enemy.defense);
             Console.WriteLine ("크리티컬 : " + enemy.critical);
             Console.WriteLine ("회피 : " + enemy.evade);
+            Console.WriteLine ("\n");
+        }
+
+        // 게임 종료시 인터페이스
+        public static void GameEndInterface (int count) {
+            Console.WriteLine ("★명령어★");
+            Console.WriteLine ("-restart : 게임을 재시작합니다.");
+            Console.WriteLine ("-quit : 게임을 종료합니다.");
             Console.WriteLine ("\n");
         }
     }
