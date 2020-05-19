@@ -25,6 +25,7 @@ namespace TextRPG {
             //Console.WriteLine ("-start : 게임을 시작합니다.");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
             Console.WriteLine ("-quit : 게임을 종료합니다.");
+            Console.WriteLine ("-achivement : 도전과제를 확인합니다.");
             Console.WriteLine ("-attack : 공격합니다.");
             Console.WriteLine ("\n");
         }

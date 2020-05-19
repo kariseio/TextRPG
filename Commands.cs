@@ -16,6 +16,7 @@ namespace TextRPG {
             count = 1;
             player.health = 100;
             TextRPG.RandEnemy (enemy);
+            totalDMG = totalCritical = totalEvade = 0;
             Console.WriteLine ("게임을 재실행합니다.\n");
         }
 
@@ -100,7 +101,70 @@ namespace TextRPG {
             } catch(Exception e) {
                 Console.WriteLine (e.ToString ());
             }
+        }
 
+        public static void Achivement () {
+            Console.Clear ();
+            Console.WriteLine ("========== 도전과제 ==========");
+            Console.WriteLine ("누적 데미지");
+            if (TextRPG.DMG1)
+                Console.WriteLine ("50 (달성)");
+            else {
+                Console.WriteLine ("50 (미달성)");
+            }
+
+            if (TextRPG.DMG2)
+                Console.WriteLine ("100 (달성)");
+            else {
+                Console.WriteLine ("100 (미달성)");
+            }
+
+            if (TextRPG.DMG3)
+                Console.WriteLine ("200 (달성)");
+            else {
+                Console.WriteLine ("200 (미달성)");
+            }
+            Console.WriteLine ("");
+
+            Console.WriteLine ("크리티컬 횟수");
+            if (TextRPG.CRI1)
+                Console.WriteLine ("3 (달성)");
+            else {
+                Console.WriteLine ("3 (미달성)");
+            }
+
+            if (TextRPG.CRI2)
+                Console.WriteLine ("5 (달성)");
+            else {
+                Console.WriteLine ("5 (미달성)");
+            }
+
+            if (TextRPG.CRI3)
+                Console.WriteLine ("10 (달성)");
+            else {
+                Console.WriteLine ("10 (미달성)");
+            }
+            Console.WriteLine ("");
+
+            Console.WriteLine ("회피 횟수");
+            if (TextRPG.EVA1)
+                Console.WriteLine ("3 (달성)");
+            else {
+                Console.WriteLine ("3 (미달성)");
+            }
+
+            if (TextRPG.EVA2)
+                Console.WriteLine ("5 (달성)");
+            else {
+                Console.WriteLine ("5 (미달성)");
+            }
+
+            if (TextRPG.EVA3)
+                Console.WriteLine ("10 (달성)");
+            else {
+                Console.WriteLine ("10 (미달성)");
+            }
+            Console.WriteLine ("");
         }
 
         // 명령어 입력 받는 함수
@@ -115,6 +179,10 @@ namespace TextRPG {
 
                 case "-quit":
                     Commands.Quit ();
+                    break;
+
+                case "-achivement":
+                    Commands.Achivement ();
                     break;
 
                 case "-attack":
