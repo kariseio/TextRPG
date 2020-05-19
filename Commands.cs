@@ -107,19 +107,19 @@ namespace TextRPG {
             Console.Clear ();
             Console.WriteLine ("========== 도전과제 ==========");
             Console.WriteLine ("누적 데미지");
-            if (TextRPG.DMG1)
+            if (TextRPG.DMG[0])
                 Console.WriteLine ("50 (달성)");
             else {
                 Console.WriteLine ("50 (미달성)");
             }
 
-            if (TextRPG.DMG2)
+            if (TextRPG.DMG[1])
                 Console.WriteLine ("100 (달성)");
             else {
                 Console.WriteLine ("100 (미달성)");
             }
 
-            if (TextRPG.DMG3)
+            if (TextRPG.DMG[2])
                 Console.WriteLine ("200 (달성)");
             else {
                 Console.WriteLine ("200 (미달성)");
@@ -127,19 +127,19 @@ namespace TextRPG {
             Console.WriteLine ("");
 
             Console.WriteLine ("크리티컬 횟수");
-            if (TextRPG.CRI1)
+            if (TextRPG.CRI[0])
                 Console.WriteLine ("3 (달성)");
             else {
                 Console.WriteLine ("3 (미달성)");
             }
 
-            if (TextRPG.CRI2)
+            if (TextRPG.CRI[1])
                 Console.WriteLine ("5 (달성)");
             else {
                 Console.WriteLine ("5 (미달성)");
             }
 
-            if (TextRPG.CRI3)
+            if (TextRPG.CRI[2])
                 Console.WriteLine ("10 (달성)");
             else {
                 Console.WriteLine ("10 (미달성)");
@@ -147,19 +147,19 @@ namespace TextRPG {
             Console.WriteLine ("");
 
             Console.WriteLine ("회피 횟수");
-            if (TextRPG.EVA1)
+            if (TextRPG.EVA[0])
                 Console.WriteLine ("3 (달성)");
             else {
                 Console.WriteLine ("3 (미달성)");
             }
 
-            if (TextRPG.EVA2)
+            if (TextRPG.EVA[1])
                 Console.WriteLine ("5 (달성)");
             else {
                 Console.WriteLine ("5 (미달성)");
             }
 
-            if (TextRPG.EVA3)
+            if (TextRPG.EVA[2])
                 Console.WriteLine ("10 (달성)");
             else {
                 Console.WriteLine ("10 (미달성)");

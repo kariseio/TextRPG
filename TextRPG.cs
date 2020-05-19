@@ -71,70 +71,73 @@ namespace TextRPG {
             Commands.GameEndCommands (player, enemy, ref count);
         }
 
-        public static bool DMG1, DMG2, DMG3;
+        /*public static bool DMG1, DMG2, DMG3;
         public static bool CRI1, CRI2, CRI3;
-        public static bool EVA1, EVA2, EVA3;
+        public static bool EVA1, EVA2, EVA3;*/
+        public static bool[] DMG = new bool[3];
+        public static bool[] CRI = new bool[3];
+        public static bool[] EVA = new bool[3];
         public static void IsAchivement () {
-            if(DMG1 == false && Commands.totalDMG < 100) {
+            if(DMG[0] == false && Commands.totalDMG < 100) {
                 if(Commands.totalDMG >= 50) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 피해량 50달성!!\n");
-                    DMG1 = true;
+                    DMG[0] = true;
                 }
-            } else if(DMG2 == false && Commands.totalDMG < 200) {
+            } else if(DMG[1] == false && Commands.totalDMG < 200) {
                 if (Commands.totalDMG >= 100) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 피해량 100달성!!\n");
-                    DMG1 = true;
-                    DMG2 = true;
+                    DMG[0] = true;
+                    DMG[1] = true;
                 }
-            } else if (DMG3 == false) {
+            } else if (DMG[2] == false) {
                 if (Commands.totalDMG >= 200) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 피해량 200달성!!\n");
-                    DMG1 = true;
-                    DMG2 = true;
-                    DMG3 = true;
+                    DMG[0] = true;
+                    DMG[1] = true;
+                    DMG[2] = true;
                 }
             }
 
-            if (CRI1 == false) {
+            if (CRI[0] == false) {
                 if (Commands.totalCritical >= 3) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 크리티컬 3달성!!\n");
-                    CRI1 = true;
+                    CRI[0] = true;
                 }
-            } else if (CRI2 == false) {
+            } else if (CRI[1] == false) {
                 if (Commands.totalCritical >= 5) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 크리티컬 5달성!!\n");
-                    CRI2 = true;
+                    CRI[1] = true;
                 }
-            } else if (CRI3 == false) {
+            } else if (CRI[2] == false) {
                 if (Commands.totalCritical >= 10) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 크리티컬 10달성!!\n");
-                    CRI3 = true;
+                    CRI[2] = true;
                 }
             }
 
-            if (EVA1 == false) {
+            if (EVA[0] == false) {
                 if (Commands.totalEvade >= 3) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 회피 3달성!!\n");
-                    EVA1 = true;
+                    EVA[0] = true;
                 }
-            } else if (EVA2 == false) {
+            } else if (EVA[1] == false) {
                 if (Commands.totalEvade >= 5) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 회피 5달성!!\n");
-                    EVA2 = true;
+                    EVA[1] = true;
                 }
-            } else if (EVA3 == false) {
+            } else if (EVA[2] == false) {
                 if (Commands.totalEvade >= 10) {
                     Console.WriteLine ("도전과제");
                     Console.WriteLine ("누적 회피 10달성!!\n");
-                    EVA3 = true;
+                    EVA[2] = true;
                 }
             }
 

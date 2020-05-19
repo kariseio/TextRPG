@@ -5,6 +5,10 @@ using System.Text;
 namespace TextRPG {
     class Interface {
 
+        public Interface () {
+
+        }
+
         // 시작 인터페이스
         public static void StartInterface () {
             Console.WriteLine ("========================================");
@@ -17,7 +21,6 @@ namespace TextRPG {
             Console.WriteLine (String.Format ("{0,20}", "시작하려면 아무 키나 입력"));
 
         }
-
 
         // 기본 인터페이스
         public static void MainInterface (int count) {
