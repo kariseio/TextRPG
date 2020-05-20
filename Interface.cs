@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace TextRPG {
     class Interface {
 
-        public Interface () {
-
-        }
 
         // 시작 인터페이스
         public static void StartInterface () {
@@ -25,7 +22,6 @@ namespace TextRPG {
         // 기본 인터페이스
         public static void MainInterface (int count) {
             Console.WriteLine ("★명령어★");
-            //Console.WriteLine ("-start : 게임을 시작합니다.");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
             Console.WriteLine ("-quit : 게임을 종료합니다.");
             Console.WriteLine ("-achivement : 도전과제를 확인합니다.");
