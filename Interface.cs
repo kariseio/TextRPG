@@ -1,13 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace TextRPG {
     class Interface {
 
+        public Interface () {
+
+        }
 
         // 시작 인터페이스
-        public static void StartInterface () {
+        public void StartInterface () {
             Console.WriteLine ("========================================");
             Console.WriteLine ("\n\n");
             Console.WriteLine (String.Format ("{0}", "Text RPG").PadLeft (40 - (20 - ("Text RPG".Length / 2))));
@@ -20,8 +23,9 @@ namespace TextRPG {
         }
 
         // 기본 인터페이스
-        public static void MainInterface (int count) {
+        public void MainInterface (int count) {
             Console.WriteLine ("★명령어★");
+            //Console.WriteLine ("-start : 게임을 시작합니다.");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
             Console.WriteLine ("-quit : 게임을 종료합니다.");
             Console.WriteLine ("-achivement : 도전과제를 확인합니다.");
@@ -30,7 +34,7 @@ namespace TextRPG {
         }
 
         // 플레이어 인터페이스
-        public static void PlayerInterface (Info player) {
+        public void PlayerInterface (Info player) {
             Console.WriteLine ("==========플레이어 정보==========");
             Console.WriteLine ("체력 : " + player.health);
             Console.WriteLine ("공격력 : " + player.attack);
@@ -41,7 +45,7 @@ namespace TextRPG {
         }
 
         // 적 인터페이스
-        public static void EnemyInterface (Info enemy) {
+        public void EnemyInterface (Info enemy) {
             Console.WriteLine ("==========적 정보==========");
             Console.WriteLine ("체력 : " + enemy.health);
             Console.WriteLine ("공격력 : " + enemy.attack);
@@ -52,7 +56,7 @@ namespace TextRPG {
         }
 
         // 게임 종료시 인터페이스
-        public static void GameEndInterface (int count) {
+        public void GameEndInterface (int count) {
             Console.WriteLine ("★명령어★");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
             Console.WriteLine ("-quit : 게임을 종료합니다.");

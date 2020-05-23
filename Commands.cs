@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 
@@ -8,11 +6,16 @@ namespace TextRPG {
 
     class Commands {
 
-        public static int totalDMG = 0;
-        public static int totalCritical = 0;
-        public static int totalEvade = 0;
+        public int totalDMG { get; set; } = 0;
+        public int totalCritical { get; set; } = 0;
+        public int totalEvade { get; set; } = 0;
 
-        public static void Restart(Info player, Info enemy, ref int count) {
+
+        public Commands () {
+
+        }
+
+        public void Restart(Info player, Info enemy, ref int count) {
             count = 1;
             player.health = 100;
             TextRPG.RandEnemy (enemy);
@@ -20,13 +23,13 @@ namespace TextRPG {
             Console.WriteLine ("게임을 재실행합니다.\n");
         }
 
-        public static void Quit() {
+        public void Quit() {
             Console.WriteLine ("게임을 종료합니다");
             Thread.Sleep (1000);
             Environment.Exit (0);
         }
 
-        public static void Attack(Info player, Info enemy) {
+        public void Attack(Info player, Info enemy) {
             try {
                 if (enemy.health <= 0 || player.health <= 0)
                     return;
@@ -103,7 +106,7 @@ namespace TextRPG {
             }
         }
 
-        public static void Achivement () {
+        public void Achivement () {
             Console.Clear ();
             Console.WriteLine ("========== 도전과제 ==========");
             Console.WriteLine ("누적 데미지");
@@ -168,7 +171,7 @@ namespace TextRPG {
         }
 
         // 명령어 입력 받는 함수
-        public static void ReadCommands (Info player, Info enemy, ref int count) {
+        public void ReadCommands (Info player, Info enemy, ref int count) {
             string command;
             Console.Write ("Command : ");
             command = Console.ReadLine ().ToLower (); // 소문자로 입력받음
@@ -196,7 +199,7 @@ namespace TextRPG {
             }
         }
 
-        public static void GameEndCommands (Info player, Info enemy, ref int count) {
+        public void GameEndCommands (Info player, Info enemy, ref int count) {
             string command;
             Console.Write ("Command : ");
             command = Console.ReadLine ().ToLower (); // 소문자로 입력받음
