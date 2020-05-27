@@ -5,10 +5,6 @@ using System.Text;
 namespace TextRPG {
     class Interface {
 
-        public Interface () {
-
-        }
-
         // 시작 인터페이스
         public void StartInterface () {
             Console.WriteLine ("========================================");
@@ -23,14 +19,24 @@ namespace TextRPG {
         }
 
         // 기본 인터페이스
-        public void MainInterface (int count) {
+        public void MainInterface () {
             Console.WriteLine ("★명령어★");
-            //Console.WriteLine ("-start : 게임을 시작합니다.");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
             Console.WriteLine ("-quit : 게임을 종료합니다.");
             Console.WriteLine ("-achivement : 도전과제를 확인합니다.");
             Console.WriteLine ("-attack : 공격합니다.");
             Console.WriteLine ("\n");
+        }
+
+        // 플레이어 능력치 인터페이스
+        public void PlayerStatInterface () {
+            Console.WriteLine ("★명령어★");
+            Console.WriteLine ("-start : 게임을 시작합니다.");
+            Console.WriteLine ("-restart : 게임을 재시작합니다.");
+            Console.WriteLine ("-reroll : 능력치를 재설정합니다.");
+            Console.WriteLine ("-quit : 게임을 종료합니다.");
+            Console.WriteLine ("\n");
+            Console.WriteLine ("플레이어 능력치를 설정합니다.\n");
         }
 
         // 플레이어 인터페이스
@@ -55,12 +61,55 @@ namespace TextRPG {
             Console.WriteLine ("\n");
         }
 
+        // 도전과제 인터페이스
+        public void AchivementInterface () {
+            Console.Clear ();
+            Console.WriteLine ("========== 도전과제 ==========");
+            Console.WriteLine ("누적 데미지");
+
+            // Damage Achivement
+            for(int i = 0; i < 4; i++) {
+                int challenge = 100 * (int)Math.Pow (2, i);
+                if (TextRPG.DMG[i])
+                    Console.WriteLine (challenge + " (달성)");
+                else {
+                    Console.WriteLine (challenge + " (미달성)");
+                }
+            }
+            Console.WriteLine ("");
+
+            // Critical Achivement
+            Console.WriteLine ("누적 크리티컬");
+            for (int i = 0; i < 4; i++) {
+                int challenge = (int)Math.Pow (2, i + 1);
+                if (TextRPG.CRI[i])
+                    Console.WriteLine (challenge + " (달성)");
+                else {
+                    Console.WriteLine (challenge + " (미달성)");
+                }
+            }
+            Console.WriteLine ("");
+
+            // Evade Acivement
+            Console.WriteLine ("누적 회피");
+            for (int i = 0; i < 4; i++) {
+                int challenge = (int)Math.Pow (2, i + 1);
+                if (TextRPG.EVA[i])
+                    Console.WriteLine (challenge + " (달성)");
+                else {
+                    Console.WriteLine (challenge + " (미달성)");
+                }
+            }
+            Console.WriteLine ("");
+        }
+
         // 게임 종료시 인터페이스
-        public void GameEndInterface (int count) {
+        public void GameEndInterface () {
             Console.WriteLine ("★명령어★");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
             Console.WriteLine ("-quit : 게임을 종료합니다.");
             Console.WriteLine ("\n");
         }
+
     }
 }

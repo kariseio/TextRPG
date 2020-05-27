@@ -5,8 +5,12 @@ namespace TextRPG {
         public static void Main (string[] args) {
             int count = 0; // 몇번째 적인지
 
-            Info player = new Info (100, 1000, 5, 5, 7);
-            Info enemy = new Info();
+            Info player = new Info ();
+            Info enemy = new Info ();
+
+            // 승률 확인
+            //WinRate.showRate (player, enemy);
+            //Console.ReadKey ();
 
             Interface Interface = new Interface ();
             Commands Commands = new Commands ();
@@ -17,13 +21,26 @@ namespace TextRPG {
             Console.ReadKey ();
             Console.Clear ();
 
+            // goto 문 사용해서 restart시 여기로 (이거 괜찮은 걸까?) => 아닌 걸로 판명
+
+            // 처음 부분으로 돌아가려면?
+
+            // 게임 실행 전 플레이어 능력치 굴림
+            TextRPG.SetPlayer (player);
+            Console.Clear ();
+
+
+            // reroll 기능 추가
+
+            // start로 실행
+
 
             while (count <= 10) {
-
-                Interface.MainInterface (count);
+                // interface + count
+                Interface.MainInterface ();
                 if (count == 0)
                     Console.WriteLine ("적을 10마리 처치하면 승리!!\n");
-                if (enemy.health <= 0) {
+                if (enemy.health <= 0 || count == 0) {
                     Console.WriteLine (++count + "번째 적을 마주쳤습니다.\n");
                     enemy = new Info ();
                     TextRPG.RandEnemy (enemy);
@@ -31,22 +48,25 @@ namespace TextRPG {
                 if (count > 0)
                     Console.WriteLine (count + " / 10");
 
-
-
+                // show interface
                 Interface.PlayerInterface (player);
                 Interface.EnemyInterface (enemy);
                 Commands.ReadCommands (player, enemy, ref count);
 
                 TextRPG.IsAchivement ();
 
+                // 0 health
+                if (player.health <= 0) {
+                    Console.ReadKey ();
+                    TextRPG.GameOver (player, enemy, ref count);
+                }
+
+                // kill the enemy
                 if (enemy.health <= 0) {
                     Console.WriteLine ("적을 처치했습니다!!\n");
                     if (count > 9) {
                         Console.ReadKey ();
-                        count++;
-                        TextRPG.GameEnd (player, enemy, ref count);
-                        enemy = new Info ();
-                        TextRPG.RandEnemy (enemy);
+                        TextRPG.GameClear (player, enemy, ref count);
                     }
                 }
                 Console.ReadKey (); // getchar() 대용으로 사용중
@@ -54,95 +74,127 @@ namespace TextRPG {
             }
         }
 
+        public void SetPlayer (Info player) {
+            Interface Interface = new Interface ();
+            Commands Commands = new Commands ();
+            TextRPG TextRPG = new TextRPG ();
+
+            TextRPG.RandPlayer (player); // 능력치 돌리고
+            Interface.PlayerStatInterface (); // 명령어 보여주고
+            Interface.PlayerInterface (player);  // 능력치 보여주고
+            Commands.PlayerStatCommands (player); // 입력 받음
+
+        }
+
+        public void RandPlayer (Info player) {
+            Random rand = new Random ();
+            player.health = rand.Next (100, 120);
+            player.attack = rand.Next (10, 25);
+            player.defense = rand.Next (4, 8);
+            player.critical = rand.Next (15, 25);
+            player.evade = rand.Next (15, 15);
+        }
 
         public void RandEnemy (Info enemy) {
             Random rand = new Random ();
-            enemy.health = rand.Next (7, 16);
-            enemy.attack = rand.Next (3, 8);
-            enemy.defense = rand.Next (1, 3);
-            enemy.critical = rand.Next (3, 8);
-            enemy.evade = rand.Next (20, 45);
+            enemy.health = rand.Next (10, 25);
+            enemy.attack = rand.Next (5, 10);
+            enemy.defense = rand.Next (3, 5);
+            enemy.critical = rand.Next (3, 10);
+            enemy.evade = rand.Next (5, 20);
         }
 
-        public void GameEnd (Info player, Info enemy, ref int count) {
+        public void GameClear (Info player, Info enemy, ref int count) {
+            Interface Interface = new Interface ();
+            Commands Commands = new Commands ();
             Console.Clear ();
-            Interface.GameEndInterface (0);
+            Interface.GameEndInterface ();
             Console.WriteLine ("축하합니다!");
             Console.WriteLine ("게임 클리어!\n");
 
             Console.WriteLine ("재실행하시겠습니까?\n");
-            Commands.GameEndCommands (player, enemy, ref count);
+            Commands.GameOverCommands (player, enemy, ref count);
         }
+        
 
-        public bool[] DMG = new bool[3];
-        public bool[] CRI = new bool[3];
-        public bool[] EVA = new bool[3];
-        public void IsAchivement () {
+        public void GameOver (Info player, Info enemy, ref int count) {
+            Interface Interface = new Interface ();
             Commands Commands = new Commands ();
-            if(DMG[0] == false && Commands.totalDMG < 100) {
-                if(Commands.totalDMG >= 50) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 피해량 50달성!!\n");
-                    DMG[0] = true;
-                }
-            } else if(DMG[1] == false && Commands.totalDMG < 200) {
-                if (Commands.totalDMG >= 100) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 피해량 100달성!!\n");
-                    DMG[0] = true;
-                    DMG[1] = true;
-                }
-            } else if (DMG[2] == false) {
-                if (Commands.totalDMG >= 200) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 피해량 200달성!!\n");
-                    DMG[0] = true;
-                    DMG[1] = true;
-                    DMG[2] = true;
-                }
-            }
+            Console.Clear ();
+            Interface.GameEndInterface ();
+            Console.WriteLine ("사망하셨습니다.");
 
-            if (CRI[0] == false) {
-                if (Commands.totalCritical >= 3) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 크리티컬 3달성!!\n");
-                    CRI[0] = true;
-                }
-            } else if (CRI[1] == false) {
-                if (Commands.totalCritical >= 5) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 크리티컬 5달성!!\n");
-                    CRI[1] = true;
-                }
-            } else if (CRI[2] == false) {
-                if (Commands.totalCritical >= 10) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 크리티컬 10달성!!\n");
-                    CRI[2] = true;
-                }
-            }
-
-            if (EVA[0] == false) {
-                if (Commands.totalEvade >= 3) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 회피 3달성!!\n");
-                    EVA[0] = true;
-                }
-            } else if (EVA[1] == false) {
-                if (Commands.totalEvade >= 5) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 회피 5달성!!\n");
-                    EVA[1] = true;
-                }
-            } else if (EVA[2] == false) {
-                if (Commands.totalEvade >= 10) {
-                    Console.WriteLine ("도전과제");
-                    Console.WriteLine ("누적 회피 10달성!!\n");
-                    EVA[2] = true;
-                }
-            }
-
+            Console.WriteLine ("재실행하시겠습니까?\n");
+            Commands.GameOverCommands (player, enemy, ref count);
         }
+
+        public static bool[] DMG = new bool[10];
+        public static bool[] CRI = new bool[10];
+        public static bool[] EVA = new bool[10];
+        public void IsAchivement () {
+            // Damage Achivement
+            for (int i = 0; i < 4; i++) {
+                int challenge = 100 * (int)Math.Pow (2, i);
+                int nextChallenge;
+
+                if (i < 3) {
+                    nextChallenge = 100 * (int)Math.Pow (2, i + 1);
+                } else
+                    nextChallenge = int.MaxValue;
+
+                if (DMG[i] == false && Commands.TotalDMG < nextChallenge) {
+                    if (Commands.TotalDMG >= challenge) {
+                        Console.WriteLine ("도전과제");
+                        Console.WriteLine ("누적 피해량 " + challenge + "달성!!\n");
+                        DMG[i] = true;
+                    }
+                } else if (Commands.TotalDMG >= nextChallenge) {
+                    DMG[i] = true;
+                }
+            }
+
+            // Critical Achivement
+            for (int i = 0; i < 4; i++) {
+                int challenge = (int)Math.Pow (2, i + 1);
+                int nextChallenge;
+
+                if (i < 3) {
+                    nextChallenge = (int)Math.Pow (2, i + 2);
+                } else
+                    nextChallenge = int.MaxValue;
+
+                if (CRI[i] == false && Commands.TotalCritical < nextChallenge) {
+                    if (Commands.TotalCritical >= challenge) {
+                        Console.WriteLine ("도전과제");
+                        Console.WriteLine ("누적 크리티컬 " + challenge + "달성!!\n");
+                        CRI[i] = true;
+                    }
+                } else if (Commands.TotalCritical >= nextChallenge) {
+                    CRI[i] = true;
+                }
+            }
+
+            // Evade Achivement
+            for (int i = 0; i < 4; i++) {
+                int challenge = (int)Math.Pow (2, i + 1);
+                int nextChallenge;
+
+                if (i < 3) {
+                    nextChallenge = (int)Math.Pow (2, i + 2);
+                } else
+                    nextChallenge = int.MaxValue;
+
+                if (EVA[i] == false && Commands.TotalEvade < nextChallenge) {
+                    if (Commands.TotalEvade >= challenge) {
+                        Console.WriteLine ("도전과제");
+                        Console.WriteLine ("누적 회피 " + challenge + "달성!!\n");
+                        EVA[i] = true;
+                    }
+                } else if (Commands.TotalEvade >= nextChallenge) {
+                    EVA[i] = true;
+                }
+            }
+        }  
     }
 
     // 정보 클래스 (아군, 적)
