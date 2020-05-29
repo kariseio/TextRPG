@@ -5,11 +5,9 @@ namespace TextRPG {
 
     class Commands {
 
-        public static int TotalDMG { get; set; } = 0;
-        public static int TotalCritical { get; set; } = 0;
-        public static int TotalEvade { get; set; } = 0;
+        
 
-        public void Restart(Info player, Info enemy, ref int count) {
+        public void Restart(Info player, Info enemy) {
             TextRPG TextRPG = new TextRPG ();
 
             Console.WriteLine ("게임을 재실행합니다.\n");
@@ -17,10 +15,9 @@ namespace TextRPG {
             Console.Clear ();
             TextRPG.SetPlayer (player);
 
-            count = 0;
+            TextRPG.count = 0;
 
             TextRPG.RandEnemy (enemy);
-            TotalDMG = TotalCritical = TotalEvade = 0;
         }
 
         public void Restart(Info player) {
@@ -28,6 +25,7 @@ namespace TextRPG {
             Console.WriteLine ("게임을 재실행합니다.\n");
             Console.ReadKey ();
             Console.Clear ();
+
             TextRPG.SetPlayer (player);
             Console.Clear ();
         }
@@ -72,10 +70,10 @@ namespace TextRPG {
                         DMG *= 2;
                         if (DMG < 2)
                             DMG = 2;
-                        TotalCritical++;
+                        TextRPG.TotalCritical++;
                     }
                     enemy.health -= DMG;
-                    TotalDMG += DMG;
+                    TextRPG.TotalDMG += DMG;
                     if (enemy.health < 0)
                         enemy.health = 0;
 
@@ -108,7 +106,7 @@ namespace TextRPG {
                     Console.WriteLine ("플레이어 체력 " + playerHealth + " => " + player.health);
                 } else {
                     Console.WriteLine ("플레이어가 회피하였습니다.");
-                    TotalEvade++;
+                    TextRPG.TotalEvade++;
                 }
 
                 Console.WriteLine (""); // 줄바꿈
@@ -126,14 +124,14 @@ namespace TextRPG {
         }
 
         // 명령어 입력 받는 함수
-        public void ReadCommands (Info player, Info enemy, ref int count) {
+        public void ReadCommands (Info player, Info enemy) {
             Commands Commands = new Commands ();
             string command;
             Console.Write ("Command : ");
             command = Console.ReadLine ().ToLower (); // 소문자로 입력받음
             switch (command) {
                 case "-restart":
-                    Commands.Restart (player, enemy, ref count);
+                    Commands.Restart (player, enemy);
                     break;
 
                 case "-quit":
@@ -150,7 +148,7 @@ namespace TextRPG {
 
                 default:
                     Console.WriteLine ("명령어에 해당하지 않는 입력\n");
-                    ReadCommands (player, enemy, ref count);
+                    ReadCommands (player, enemy);
                     break;
             }
         }
@@ -189,14 +187,14 @@ namespace TextRPG {
             }
         }
 
-        public void GameOverCommands (Info player, Info enemy, ref int count) {
+        public void GameOverCommands (Info player, Info enemy) {
             Commands Commands = new Commands ();
             string command;
             Console.Write ("Command : ");
             command = Console.ReadLine ().ToLower (); // 소문자로 전환
             switch (command) {
                 case "-restart":
-                    Commands.Restart (player, enemy, ref count);
+                    Commands.Restart (player, enemy);
                     break;
 
                 case "-quit":
@@ -205,7 +203,7 @@ namespace TextRPG {
 
                 default:
                     Console.WriteLine ("명령어에 해당하지 않는 입력\n");
-                    GameOverCommands (player, enemy, ref count);
+                    GameOverCommands (player, enemy);
                     break;
             }
         }

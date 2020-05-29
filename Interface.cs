@@ -22,9 +22,9 @@ namespace TextRPG {
         public void MainInterface () {
             Console.WriteLine ("★명령어★");
             Console.WriteLine ("-restart : 게임을 재시작합니다.");
-            Console.WriteLine ("-quit : 게임을 종료합니다.");
-            Console.WriteLine ("-achivement : 도전과제를 확인합니다.");
             Console.WriteLine ("-attack : 공격합니다.");
+            Console.WriteLine ("-achivement : 도전과제를 확인합니다.");
+            Console.WriteLine ("-quit : 게임을 종료합니다.");
             Console.WriteLine ("\n");
         }
 
@@ -90,7 +90,7 @@ namespace TextRPG {
             }
             Console.WriteLine ("");
 
-            // Evade Acivement
+            // Evade Achivement
             Console.WriteLine ("누적 회피");
             for (int i = 0; i < 4; i++) {
                 int challenge = (int)Math.Pow (2, i + 1);
@@ -100,6 +100,16 @@ namespace TextRPG {
                     Console.WriteLine (challenge + " (미달성)");
                 }
             }
+            Console.WriteLine ("");
+
+            // Clear Achivement
+            Console.WriteLine ("누적 클리어");
+            Console.WriteLine (TextRPG.TotalClear + " 회");
+            Console.WriteLine ("");
+
+            // Death Achivement
+            Console.WriteLine ("누적 사망");
+            Console.WriteLine (TextRPG.TotalDeath + " 회");
             Console.WriteLine ("");
         }
 
